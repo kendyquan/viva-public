@@ -1,0 +1,62 @@
+export const reviews = [
+  {
+    id: 1,
+    name: "Micah Ryan",
+    country: "United Kingdom",
+    flag: "🇬🇧",
+    date: "February 20, 2018",
+    score: 5,
+    text: "Close to the metro to go anywhere! It was great! The entire apartment was so clean! He gave us towels and fresh sheets. I really enjoyed my stay. The place is small, but very cute! I absolutely loved it! I will definitely book again if we are going to be vacationing in the area.",
+  },
+  {
+    id: 2,
+    name: "Alyssa",
+    country: "Belgium",
+    flag: "🇧🇪",
+    date: "March 10, 2018",
+    score: 4,
+    text: "Close to the metro to go anywhere! It was great! The entire apartment was so clean! He gave us towels and fresh sheets. I really enjoyed my stay. The place is small, but very cute! I absolutely loved it! Our whole family was comfortable in their own rooms, yet we were able to spend quality time together in the open kitchen/living room/dining room.",
+  },
+  {
+    id: 3,
+    name: "Micah Ryan",
+    country: "United Kingdom",
+    flag: "🇬🇧",
+    date: "February 20, 2018",
+    score: 5,
+    text: "Beautiful cabin and beautiful location. Neighborhood was quiet which was great for relaxing. The scenery was amazing! You literally just cross the street and explore. The hosts were extremely friendly and super fast with replying to messages. Overall, we had an amazing experience and we will definitely be back.",
+  },
+  {
+    id: 4,
+    name: "Sophie Chen",
+    country: "Australia",
+    flag: "🇦🇺",
+    date: "April 5, 2018",
+    score: 5,
+    text: "Absolutely amazing property! The view from the balcony was breathtaking. Every detail was thoughtfully arranged. The host was incredibly responsive and made sure we had everything we needed. This was genuinely the best vacation rental experience I have ever had.",
+  },
+  {
+    id: 5,
+    name: "James Wilson",
+    country: "Canada",
+    flag: "🇨🇦",
+    date: "May 12, 2018",
+    score: 4,
+    text: "Great location in the heart of the city with easy access to everything. The apartment was modern, clean, and very comfortable. The check-in process was smooth and the host provided excellent local tips. Would definitely recommend this place to anyone visiting.",
+  },
+  {
+    id: 6,
+    name: "Maria Lopez",
+    country: "Spain",
+    flag: "🇪🇸",
+    date: "June 8, 2018",
+    score: 5,
+    text: "Wonderful experience from start to finish. The property exceeded all expectations — spotlessly clean, beautifully decorated, and in the perfect location. Communication with the host was seamless. We will absolutely be returning on our next visit to the city!",
+  },
+];
+
+export const ratingBreakdown = [
+  { label: "Accuracy", score: 5 },
+  { label: "Communication", score: 4 },
+  { label: "Cleanliness", score: 4 },
+];

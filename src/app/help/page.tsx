@@ -1,0 +1,162 @@
+"use client";
+
+import { useState } from "react";
+import { useLang } from "@/contexts/LanguageContext";
+
+const faqKeys = [
+  {
+    en_q: "Why is my credit card getting declined?",
+    en_a: "Credit cards can be declined for a number of reasons. FIVIVA generally isn't notified of the specific reason.\n\nCheck that you're entering your credit card number and billing address correctly, that your card has available funds, and that your card hasn't expired.\n\nIf you're getting an error when you try to pay, we recommend reaching out to your bank or credit card company for more information. Inform them of the amount and when you tried to make the charge so they can let the transaction go through.\n\nIf your bank or card issuer isn't able to help, you may want to try another payment method.",
+    defaultOpen: true,
+  },
+  { en_q: "How do I edit or remove my payment method?", en_a: "Go to Account → Payment Methods. Tap Edit next to the card you want to change, or tap Remove to delete it. You need at least one payment method on file to make bookings." },
+  { en_q: "Should I book if I have not heard back from the host?", en_a: "If a listing is set to Instant Book, you can book without waiting for the host to respond. For other listings, we recommend waiting for a response before booking. Most hosts reply within 24 hours." },
+  { en_q: "How is the price determined for my reservation?", en_a: "The total price includes the nightly rate set by the host, a FIVIVA service fee, and any applicable taxes. Some hosts also charge cleaning fees or extra guest fees. All charges are shown before you confirm the booking." },
+  { en_q: "What does it mean if a host pre-approves me?", en_a: "A pre-approval means the host has reviewed your request and is willing to accept your booking. You still need to confirm and pay within 24 hours, otherwise the pre-approval expires." },
+  { en_q: "Can I use more than one payment method to pay for a reservation?", en_a: "Currently FIVIVA supports one payment method per reservation. You can use travel credits or coupons alongside a payment method, but you cannot split payment across two cards." },
+  { en_q: "How do I submit my credit or debit card billing statement for payment verification?", en_a: "Go to Account → Trust & Verification → Add Payment Verification. Follow the steps to upload a photo of your billing statement. Ensure your name, last 4 digits of the card, and billing address are visible." },
+  { en_q: "What should I do if I think someone has logged into my account?", en_a: "Change your password immediately from Account → Security. Enable two-factor authentication if you haven't already. Review your recent bookings and payment activity, and contact FIVIVA support if you see anything suspicious." },
+  { en_q: "How can I make my password strong?", en_a: "Use at least 12 characters combining uppercase, lowercase, numbers, and symbols. Avoid using personal info like your name or birthday. Use a unique password for FIVIVA — don't reuse passwords from other sites. A password manager can help." },
+];
+
+function FaqItem({ question, answer, defaultOpen = false }: { question: string; answer: string; defaultOpen?: boolean }) {
+  const [open, setOpen] = useState(defaultOpen);
+
+  return (
+    <div className="border border-gray-100 rounded-xl overflow-hidden mb-3 shadow-sm">
+      <button
+        className="w-full flex items-center justify-between px-5 py-4 text-left bg-white hover:bg-gray-50 transition-colors gap-4"
+        onClick={() => setOpen(!open)}
+      >
+        <span className="text-sm font-medium text-gray-800">{question}</span>
+        <span
+          className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-white font-bold text-lg"
+          style={{
+            background: "#00AEEF",
+            transform: open ? "rotate(45deg)" : "rotate(0deg)",
+            transition: "transform 0.25s",
+          }}
+        >
+          +
+        </span>
+      </button>
+      {open && (
+        <div className="px-5 pb-5 bg-white">
+          <div className="border-t border-gray-100 pt-4 text-sm text-gray-600 leading-relaxed whitespace-pre-line">
+            {answer}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default function HelpPage() {
+  const { t } = useLang();
+  const [search, setSearch] = useState("");
+
+  const filtered = faqKeys.filter((f) =>
+    f.en_q.toLowerCase().includes(search.toLowerCase()) ||
+    f.en_a.toLowerCase().includes(search.toLowerCase())
+  );
+
+  return (
+    <>
+      {/* Blue hero */}
+      <section
+        className="py-12 sm:py-16 text-white text-center"
+        style={{ background: "linear-gradient(135deg, #00AEEF 0%, #0090C5 100%)" }}
+      >
+        <h1 className="text-2xl sm:text-3xl font-bold mb-6 px-4">{t.help.hero_title}</h1>
+
+        {/* Search box — clean white on blue */}
+        <div className="max-w-lg mx-auto px-4">
+          <div className="relative bg-white rounded-xl shadow-lg overflow-hidden flex items-center">
+            <svg
+              className="absolute left-4 w-5 h-5 flex-shrink-0 pointer-events-none"
+              style={{ color: "#00AEEF" }}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
+            </svg>
+            <input
+              type="text"
+              placeholder={t.help.search_placeholder}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full pl-12 pr-4 py-4 text-gray-800 placeholder-gray-400 text-sm bg-transparent focus:outline-none"
+            />
+            {search && (
+              <button
+                onClick={() => setSearch("")}
+                className="absolute right-4 w-6 h-6 flex items-center justify-center rounded-full bg-gray-200 hover:bg-gray-300 transition-colors text-gray-500 text-xs font-bold flex-shrink-0"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ list */}
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 py-12">
+        {filtered.length === 0 ? (
+          <div className="text-center text-gray-500 py-16">
+            <div className="text-5xl mb-4">🔍</div>
+            <p className="text-sm">{t.help.no_results} &ldquo;{search}&rdquo;</p>
+          </div>
+        ) : (
+          filtered.map((faq, i) => (
+            <FaqItem
+              key={i}
+              question={faq.en_q}
+              answer={faq.en_a}
+              defaultOpen={i === 0 && !search}
+            />
+          ))
+        )}
+
+        {/* Pagination */}
+        <div className="flex items-center justify-center gap-2 mt-8">
+          <button className="w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:border-[#00AEEF] hover:text-[#00AEEF] transition-colors">‹</button>
+          {[1, 2, 3, 4, 5].map((p) => (
+            <button
+              key={p}
+              className={`w-9 h-9 rounded-full text-sm font-medium transition-colors ${p === 1 ? "text-white" : "border border-gray-200 text-gray-600 hover:border-[#00AEEF] hover:text-[#00AEEF]"}`}
+              style={p === 1 ? { background: "#00AEEF" } : {}}
+            >
+              {p}
+            </button>
+          ))}
+          <button className="w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:border-[#00AEEF] hover:text-[#00AEEF] transition-colors">›</button>
+        </div>
+      </section>
+
+      {/* Still need help */}
+      <section className="bg-gray-50 py-12">
+        <div className="max-w-2xl mx-auto px-4 text-center">
+          <h2 className="text-xl font-bold text-gray-900 mb-2">{t.help.still_need}</h2>
+          <p className="text-gray-500 mb-6 text-sm">{t.help.still_sub}</p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="mailto:support@fiviva.com"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-white text-sm font-semibold"
+              style={{ background: "#00AEEF" }}
+            >
+              📧 {t.help.email_btn}
+            </a>
+            <a
+              href="#"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-sm font-semibold border-2"
+              style={{ borderColor: "#00AEEF", color: "#00AEEF" }}
+            >
+              💬 {t.help.chat_btn}
+            </a>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
