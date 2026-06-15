@@ -1,9 +1,11 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import ReviewCard from "@/components/ReviewCard";
 import StarRating from "@/components/StarRating";
-import { reviews, ratingBreakdown } from "@/lib/reviewsData";
+import { reviews as fallbackReviews, ratingBreakdown } from "@/lib/reviewsData";
 import { useLang } from "@/contexts/LanguageContext";
+import { publicApi } from "@/lib/api";
 
 function RatingBar({ label, score }: { label: string; score: number }) {
   return (
@@ -22,6 +24,26 @@ function RatingBar({ label, score }: { label: string; score: number }) {
 
 export default function ReviewsPage() {
   const { t } = useLang();
+  const [reviews, setReviews] = useState(fallbackReviews as any[]);
+
+  useEffect(() => {
+    publicApi.getReviews(20)
+      .then((data) => {
+        if (data?.length) {
+          setReviews(data.map((r) => ({
+            id: r.id,
+            name: r.author,
+            country: '',
+            flag: '',
+            date: r.date ? new Date(r.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : '',
+            score: r.rating,
+            text: r.text,
+          })));
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   return (
     <>
       {/* Page header */}

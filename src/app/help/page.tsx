@@ -1,22 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLang } from "@/contexts/LanguageContext";
+import { publicApi } from "@/lib/api";
 
-const faqKeys = [
+const FALLBACK_FAQS = [
   {
-    en_q: "Why is my credit card getting declined?",
-    en_a: "Credit cards can be declined for a number of reasons. FIVIVA generally isn't notified of the specific reason.\n\nCheck that you're entering your credit card number and billing address correctly, that your card has available funds, and that your card hasn't expired.\n\nIf you're getting an error when you try to pay, we recommend reaching out to your bank or credit card company for more information. Inform them of the amount and when you tried to make the charge so they can let the transaction go through.\n\nIf your bank or card issuer isn't able to help, you may want to try another payment method.",
-    defaultOpen: true,
+    id: 'f1', question: "Why is my credit card getting declined?", category: 'landing',
+    answer: "Credit cards can be declined for a number of reasons. FIVIVA generally isn't notified of the specific reason.\n\nCheck that you're entering your credit card number and billing address correctly, that your card has available funds, and that your card hasn't expired.\n\nIf you're getting an error when you try to pay, we recommend reaching out to your bank or credit card company for more information.",
   },
-  { en_q: "How do I edit or remove my payment method?", en_a: "Go to Account → Payment Methods. Tap Edit next to the card you want to change, or tap Remove to delete it. You need at least one payment method on file to make bookings." },
-  { en_q: "Should I book if I have not heard back from the host?", en_a: "If a listing is set to Instant Book, you can book without waiting for the host to respond. For other listings, we recommend waiting for a response before booking. Most hosts reply within 24 hours." },
-  { en_q: "How is the price determined for my reservation?", en_a: "The total price includes the nightly rate set by the host, a FIVIVA service fee, and any applicable taxes. Some hosts also charge cleaning fees or extra guest fees. All charges are shown before you confirm the booking." },
-  { en_q: "What does it mean if a host pre-approves me?", en_a: "A pre-approval means the host has reviewed your request and is willing to accept your booking. You still need to confirm and pay within 24 hours, otherwise the pre-approval expires." },
-  { en_q: "Can I use more than one payment method to pay for a reservation?", en_a: "Currently FIVIVA supports one payment method per reservation. You can use travel credits or coupons alongside a payment method, but you cannot split payment across two cards." },
-  { en_q: "How do I submit my credit or debit card billing statement for payment verification?", en_a: "Go to Account → Trust & Verification → Add Payment Verification. Follow the steps to upload a photo of your billing statement. Ensure your name, last 4 digits of the card, and billing address are visible." },
-  { en_q: "What should I do if I think someone has logged into my account?", en_a: "Change your password immediately from Account → Security. Enable two-factor authentication if you haven't already. Review your recent bookings and payment activity, and contact FIVIVA support if you see anything suspicious." },
-  { en_q: "How can I make my password strong?", en_a: "Use at least 12 characters combining uppercase, lowercase, numbers, and symbols. Avoid using personal info like your name or birthday. Use a unique password for FIVIVA — don't reuse passwords from other sites. A password manager can help." },
+  { id: 'f2', question: "How do I edit or remove my payment method?", category: 'landing', answer: "Go to Account → Payment Methods. Tap Edit next to the card you want to change, or tap Remove to delete it. You need at least one payment method on file to make bookings." },
+  { id: 'f3', question: "Should I book if I have not heard back from the host?", category: 'landing', answer: "If a listing is set to Instant Book, you can book without waiting for the host to respond. For other listings, we recommend waiting for a response before booking. Most hosts reply within 24 hours." },
+  { id: 'f4', question: "How is the price determined for my reservation?", category: 'landing', answer: "The total price includes the nightly rate set by the host, a FIVIVA service fee, and any applicable taxes. Some hosts also charge cleaning fees or extra guest fees. All charges are shown before you confirm the booking." },
+  { id: 'f5', question: "What does it mean if a host pre-approves me?", category: 'landing', answer: "A pre-approval means the host has reviewed your request and is willing to accept your booking. You still need to confirm and pay within 24 hours, otherwise the pre-approval expires." },
+  { id: 'f6', question: "Can I use more than one payment method to pay for a reservation?", category: 'landing', answer: "Currently FIVIVA supports one payment method per reservation. You can use travel credits or coupons alongside a payment method, but you cannot split payment across two cards." },
+  { id: 'f7', question: "What should I do if I think someone has logged into my account?", category: 'landing', answer: "Change your password immediately from Account → Security. Enable two-factor authentication if you haven't already. Review your recent bookings and payment activity, and contact FIVIVA support if you see anything suspicious." },
+  { id: 'f8', question: "How can I make my password strong?", category: 'landing', answer: "Use at least 12 characters combining uppercase, lowercase, numbers, and symbols. Avoid using personal info like your name or birthday. Use a unique password for FIVIVA — don't reuse passwords from other sites." },
 ];
 
 function FaqItem({ question, answer, defaultOpen = false }: { question: string; answer: string; defaultOpen?: boolean }) {
@@ -54,10 +53,17 @@ function FaqItem({ question, answer, defaultOpen = false }: { question: string; 
 export default function HelpPage() {
   const { t } = useLang();
   const [search, setSearch] = useState("");
+  const [faqs, setFaqs] = useState(FALLBACK_FAQS);
 
-  const filtered = faqKeys.filter((f) =>
-    f.en_q.toLowerCase().includes(search.toLowerCase()) ||
-    f.en_a.toLowerCase().includes(search.toLowerCase())
+  useEffect(() => {
+    publicApi.getFaqs()
+      .then((data) => { if (data?.length) setFaqs(data); })
+      .catch(() => {});
+  }, []);
+
+  const filtered = faqs.filter((f) =>
+    f.question.toLowerCase().includes(search.toLowerCase()) ||
+    f.answer.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
@@ -110,9 +116,9 @@ export default function HelpPage() {
         ) : (
           filtered.map((faq, i) => (
             <FaqItem
-              key={i}
-              question={faq.en_q}
-              answer={faq.en_a}
+              key={faq.id}
+              question={faq.question}
+              answer={faq.answer}
               defaultOpen={i === 0 && !search}
             />
           ))
