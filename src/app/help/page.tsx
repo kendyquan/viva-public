@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { useLang } from "@/contexts/LanguageContext";
 import { publicApi } from "@/lib/api";
 
+const PAGE_SIZE = 5;
+
 const FALLBACK_FAQS = [
   {
     id: 'f1', question: "Why is my credit card getting declined?", category: 'landing',
@@ -20,6 +22,8 @@ const FALLBACK_FAQS = [
 
 function FaqItem({ question, answer, defaultOpen = false }: { question: string; answer: string; defaultOpen?: boolean }) {
   const [open, setOpen] = useState(defaultOpen);
+
+  useEffect(() => { setOpen(defaultOpen); }, [defaultOpen]);
 
   return (
     <div className="border border-gray-100 rounded-xl overflow-hidden mb-3 shadow-sm">
@@ -50,21 +54,76 @@ function FaqItem({ question, answer, defaultOpen = false }: { question: string; 
   );
 }
 
+function Pagination({ page, totalPages, onChange }: { page: number; totalPages: number; onChange: (p: number) => void }) {
+  if (totalPages <= 1) return null;
+
+  const getPages = () => {
+    if (totalPages <= 7) return Array.from({ length: totalPages }, (_, i) => i + 1);
+    if (page <= 4) return [1, 2, 3, 4, 5, '…', totalPages];
+    if (page >= totalPages - 3) return [1, '…', totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages];
+    return [1, '…', page - 1, page, page + 1, '…', totalPages];
+  };
+
+  const btnBase = "w-9 h-9 rounded-full text-sm font-medium transition-colors flex items-center justify-center";
+
+  return (
+    <div className="flex items-center justify-center gap-2 mt-8">
+      <button
+        onClick={() => onChange(page - 1)}
+        disabled={page === 1}
+        className={`${btnBase} border border-gray-200 text-gray-500 hover:border-[#00AEEF] hover:text-[#00AEEF] disabled:opacity-30 disabled:cursor-not-allowed`}
+      >
+        ‹
+      </button>
+
+      {getPages().map((p, i) =>
+        p === '…' ? (
+          <span key={`ellipsis-${i}`} className="w-9 text-center text-gray-400 text-sm">…</span>
+        ) : (
+          <button
+            key={p}
+            onClick={() => onChange(p as number)}
+            className={`${btnBase} ${p === page ? "text-white" : "border border-gray-200 text-gray-600 hover:border-[#00AEEF] hover:text-[#00AEEF]"}`}
+            style={p === page ? { background: "#00AEEF" } : {}}
+          >
+            {p}
+          </button>
+        )
+      )}
+
+      <button
+        onClick={() => onChange(page + 1)}
+        disabled={page === totalPages}
+        className={`${btnBase} border border-gray-200 text-gray-500 hover:border-[#00AEEF] hover:text-[#00AEEF] disabled:opacity-30 disabled:cursor-not-allowed`}
+      >
+        ›
+      </button>
+    </div>
+  );
+}
+
 export default function HelpPage() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const [search, setSearch] = useState("");
   const [faqs, setFaqs] = useState(FALLBACK_FAQS);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    publicApi.getFaqs()
+    publicApi.getFaqs(lang)
       .then((data) => { if (data?.length) setFaqs(data); })
       .catch(() => {});
-  }, []);
+  }, [lang]);
+
+  // Reset to page 1 when search or language changes
+  useEffect(() => { setPage(1); }, [search, lang]);
 
   const filtered = faqs.filter((f) =>
     f.question.toLowerCase().includes(search.toLowerCase()) ||
     f.answer.toLowerCase().includes(search.toLowerCase())
   );
+
+  const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+  const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   return (
     <>
@@ -114,30 +173,19 @@ export default function HelpPage() {
             <p className="text-sm">{t.help.no_results} &ldquo;{search}&rdquo;</p>
           </div>
         ) : (
-          filtered.map((faq, i) => (
-            <FaqItem
-              key={faq.id}
-              question={faq.question}
-              answer={faq.answer}
-              defaultOpen={i === 0 && !search}
-            />
-          ))
-        )}
+          <>
+            {paginated.map((faq, i) => (
+              <FaqItem
+                key={faq.id}
+                question={faq.question}
+                answer={faq.answer}
+                defaultOpen={i === 0 && page === 1 && !search}
+              />
+            ))}
 
-        {/* Pagination */}
-        <div className="flex items-center justify-center gap-2 mt-8">
-          <button className="w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:border-[#00AEEF] hover:text-[#00AEEF] transition-colors">‹</button>
-          {[1, 2, 3, 4, 5].map((p) => (
-            <button
-              key={p}
-              className={`w-9 h-9 rounded-full text-sm font-medium transition-colors ${p === 1 ? "text-white" : "border border-gray-200 text-gray-600 hover:border-[#00AEEF] hover:text-[#00AEEF]"}`}
-              style={p === 1 ? { background: "#00AEEF" } : {}}
-            >
-              {p}
-            </button>
-          ))}
-          <button className="w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:border-[#00AEEF] hover:text-[#00AEEF] transition-colors">›</button>
-        </div>
+            <Pagination page={page} totalPages={totalPages} onChange={setPage} />
+          </>
+        )}
       </section>
 
       {/* Still need help */}

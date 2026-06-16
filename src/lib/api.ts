@@ -48,9 +48,17 @@ export const publicApi = {
   getConfig: () => apiFetch<{ appStoreUrl: string; playStoreUrl: string; heroTitle: string; heroSubtitle: string }>('/admin/v1/public/landing/config'),
   getTeam: () => apiFetch<{ id: string; name: string; role: string; emoji: string; order: number }[]>('/admin/v1/public/landing/team-members'),
   getStats: () => apiFetch<{ activeListings: string; registeredUsers: string; countries: string; appRating: string }>('/admin/v1/public/landing/stats'),
-  getContest: () => apiFetch<{ settings: { title: string; description: string; deadline: string; isActive: boolean }; prizes: { id: string; rank: number; label: string; value: string }[]; leaderboard: { id: string; rank: number; name: string; city: string; listings: number; score: number }[] }>('/admin/v1/public/landing/contest'),
+  getContest: (lang = 'en') => apiFetch<{ settings: { title: string; description: string; deadline: string; isActive: boolean }; prizes: { id: string; rank: number; label: string; value: string }[]; leaderboard: { id: string; rank: number; name: string; city: string; listings: number; score: number }[] }>(`/admin/v1/public/landing/contest?languageCode=${lang}`),
   registerContest: (email: string, name?: string) => apiFetch<void>('/admin/v1/public/landing/contest/register', { method: 'POST', body: JSON.stringify({ email, name }) }),
-  getReviews: (limit = 3) => apiFetch<{ id: string; author: string; rating: number; text: string; date: string }[]>(`/property/v1/reviews?limit=${limit}`),
-  getFaqs: () => apiFetch<{ id: string; question: string; answer: string; category: string }[]>('/admin/v1/public/landing/content?faqCategory=landing'),
+  getReviews: (lang = 'en', limit?: number) =>
+    apiFetch<{ reviews: { id: string; name: string; country: string; flag: string; date: string; score: number; text: string }[]; ratingCategories: { id: string; label: string; score: number; sortOrder: number }[] }>(`/admin/v1/public/landing/reviews?languageCode=${lang}`)
+      .then((res) => ({
+        reviews: limit !== undefined ? (res.reviews ?? []).slice(0, limit) : (res.reviews ?? []),
+        ratingCategories: res.ratingCategories ?? [],
+      })),
+  getFaqs: (lang = 'en') =>
+    apiFetch<{ faqs: { id: string; question: string; answer: string; keyword?: string; order: number; category: string }[] }>(
+      `/admin/v1/public/landing/content?faqCategory=landing&languageCode=${lang}`
+    ).then((res) => res.faqs ?? []),
   getAbout: (lang = 'en') => apiFetch<PublicAbout>(`/admin/v1/public/about?lang=${lang}`),
 };
