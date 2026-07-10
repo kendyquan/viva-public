@@ -201,13 +201,7 @@ export default function HelpPage() {
             >
               📧 {t.help.email_btn}
             </a>
-            <a
-              href="#"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-sm font-semibold border-2"
-              style={{ borderColor: "#00AEEF", color: "#00AEEF" }}
-            >
-              💬 {t.help.chat_btn}
-            </a>
+            {/* Live Chat hidden until a real chat channel exists — restore with its URL when available */}
           </div>
         </div>
       </section>
