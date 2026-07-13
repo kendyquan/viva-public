@@ -63,10 +63,12 @@ export default function ContestPage() {
 
   useEffect(() => {
     publicApi.getContest(lang).then((d) => {
-      if (!d) return;
+      if (!d) return; // no active contest configured — keep fallback copy
       if (d.settings) setContest(d.settings);
-      if (d.prizes?.length) setPrizes(d.prizes.sort((a, b) => a.rank - b.rank));
-      if (d.leaderboard?.length) setLeaderboard(d.leaderboard.sort((a, b) => a.rank - b.rank));
+      // Always mirror the API lists (even when empty) so admin edits/deletes
+      // are reflected instead of being masked by the fallback mock data.
+      setPrizes([...(d.prizes ?? [])].sort((a, b) => a.rank - b.rank));
+      setLeaderboard([...(d.leaderboard ?? [])].sort((a, b) => a.rank - b.rank));
     }).catch(() => {});
   }, [lang]);
 
