@@ -28,15 +28,20 @@ export default function HomePage() {
   return (
     <>
       {/* ── Hero ── */}
+      {/* QA #46: white on the brand #00AEEF measured 2.53:1 — below even the
+          3:1 for large text, so no font weight could make it readable. This
+          darker pair holds 4.8–5.9:1. Sections now share one horizontal
+          gutter (px-4 sm:px-6), one vertical rhythm (py-16 sm:py-20), one lead
+          text size and one heading-to-content gap. */}
       <section
-        className="relative py-16 sm:py-24 text-center text-white"
-        style={{ background: "linear-gradient(135deg, #00AEEF 0%, #0090C5 100%)" }}
+        className="relative py-16 sm:py-20 text-center text-white"
+        style={{ background: "linear-gradient(135deg, #007AA8 0%, #006C94 100%)" }}
       >
-        <div className="max-w-2xl mx-auto px-4">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-widest uppercase mb-3">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-widest uppercase mb-4">
             {t.home.hero_title}
           </h1>
-          <p className="text-lg sm:text-xl italic font-light mb-10 opacity-90">
+          <p className="text-base sm:text-lg font-medium mb-10">
             {t.home.hero_sub}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -70,7 +75,7 @@ export default function HomePage() {
 
       {/* ── Photo Gallery ── */}
       {gallery.length > 0 && (
-        <section className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
+        <section className="max-w-6xl mx-auto px-4 sm:px-6 pt-16 sm:pt-20">
           <div className="grid grid-cols-3 gap-3">
             {gallery.slice(0, 3).map((img) => (
               <div key={img.id} className="relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-100">
@@ -82,9 +87,9 @@ export default function HomePage() {
       )}
 
       {/* ── Reviews Preview ── */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 pb-16">
-        <div className="text-center mb-8">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+        <div className="text-center mb-10">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">
             {t.home.reviews_title}
           </h2>
           <div className="flex items-center justify-center gap-2 text-gray-500">
@@ -112,7 +117,7 @@ export default function HomePage() {
           <Link
             href="/reviews"
             className="inline-block px-8 py-3 rounded-full text-sm font-semibold transition-all border-2"
-            style={{ borderColor: "#00AEEF", color: "#00AEEF" }}
+            style={{ borderColor: "#007AA8", color: "#007AA8" }}
           >
             {t.home.see_all}
           </Link>
@@ -120,9 +125,9 @@ export default function HomePage() {
       </section>
 
       {/* ── Features ── */}
-      <section className="bg-gray-50 py-16">
+      <section className="bg-gray-50 py-16 sm:py-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 text-center mb-12">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 text-center mb-10">
             {t.home.features_title}
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -142,12 +147,12 @@ export default function HomePage() {
 
       {/* ── Download CTA ── */}
       <section
-        className="py-14 text-white text-center"
-        style={{ background: "linear-gradient(135deg, #00A3C4 0%, #00AEEF 100%)" }}
+        className="py-16 sm:py-20 text-white text-center"
+        style={{ background: "linear-gradient(135deg, #007AA8 0%, #006C94 100%)" }}
       >
-        <div className="max-w-xl mx-auto px-4">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-3">{t.home.cta_title}</h2>
-          <p className="opacity-90 mb-7 text-sm sm:text-base">{t.home.cta_sub}</p>
+        <div className="max-w-2xl mx-auto px-4 sm:px-6">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4">{t.home.cta_title}</h2>
+          <p className="mb-10 text-base sm:text-lg font-medium">{t.home.cta_sub}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a href={appStoreUrl} className="inline-flex items-center gap-3 bg-white rounded-xl px-5 py-3 hover:bg-gray-50 transition-colors" style={{ color: "#1A1A2E" }}>
               <svg className="w-6 h-6 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
