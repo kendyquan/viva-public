@@ -35,7 +35,7 @@ function FaqItem({ question, answer, defaultOpen = false }: { question: string; 
         <span
           className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-white font-bold text-lg"
           style={{
-            background: "#00AEEF",
+            background: "#007AA8",
             transform: open ? "rotate(45deg)" : "rotate(0deg)",
             transition: "transform 0.25s",
           }}
@@ -71,7 +71,7 @@ function Pagination({ page, totalPages, onChange }: { page: number; totalPages: 
       <button
         onClick={() => onChange(page - 1)}
         disabled={page === 1}
-        className={`${btnBase} border border-gray-200 text-gray-500 hover:border-[#00AEEF] hover:text-[#00AEEF] disabled:opacity-30 disabled:cursor-not-allowed`}
+        className={`${btnBase} border border-gray-200 text-gray-500 hover:border-[#007AA8] hover:text-[#007AA8] disabled:opacity-30 disabled:cursor-not-allowed`}
       >
         ‹
       </button>
@@ -83,8 +83,8 @@ function Pagination({ page, totalPages, onChange }: { page: number; totalPages: 
           <button
             key={p}
             onClick={() => onChange(p as number)}
-            className={`${btnBase} ${p === page ? "text-white" : "border border-gray-200 text-gray-600 hover:border-[#00AEEF] hover:text-[#00AEEF]"}`}
-            style={p === page ? { background: "#00AEEF" } : {}}
+            className={`${btnBase} ${p === page ? "text-white" : "border border-gray-200 text-gray-600 hover:border-[#007AA8] hover:text-[#007AA8]"}`}
+            style={p === page ? { background: "#007AA8" } : {}}
           >
             {p}
           </button>
@@ -94,7 +94,7 @@ function Pagination({ page, totalPages, onChange }: { page: number; totalPages: 
       <button
         onClick={() => onChange(page + 1)}
         disabled={page === totalPages}
-        className={`${btnBase} border border-gray-200 text-gray-500 hover:border-[#00AEEF] hover:text-[#00AEEF] disabled:opacity-30 disabled:cursor-not-allowed`}
+        className={`${btnBase} border border-gray-200 text-gray-500 hover:border-[#007AA8] hover:text-[#007AA8] disabled:opacity-30 disabled:cursor-not-allowed`}
       >
         ›
       </button>
@@ -129,17 +129,17 @@ export default function HelpPage() {
     <>
       {/* Blue hero */}
       <section
-        className="py-12 sm:py-16 text-white text-center"
-        style={{ background: "linear-gradient(135deg, #00AEEF 0%, #0090C5 100%)" }}
+        className="py-16 sm:py-20 text-white text-center"
+        style={{ background: "linear-gradient(135deg, #007AA8 0%, #006C94 100%)" }}
       >
-        <h1 className="text-2xl sm:text-3xl font-bold mb-6 px-4">{t.help.hero_title}</h1>
+        <h1 className="text-3xl sm:text-4xl font-bold mb-10 px-4 sm:px-6">{t.help.hero_title}</h1>
 
         {/* Search box — clean white on blue */}
-        <div className="max-w-lg mx-auto px-4">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6">
           <div className="relative bg-white rounded-xl shadow-lg overflow-hidden flex items-center">
             <svg
               className="absolute left-4 w-5 h-5 flex-shrink-0 pointer-events-none"
-              style={{ color: "#00AEEF" }}
+              style={{ color: "#007AA8" }}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -166,7 +166,7 @@ export default function HelpPage() {
       </section>
 
       {/* FAQ list */}
-      <section className="max-w-3xl mx-auto px-4 sm:px-6 py-12">
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
         {filtered.length === 0 ? (
           <div className="text-center text-gray-500 py-16">
             <div className="text-5xl mb-4">🔍</div>
@@ -189,15 +189,15 @@ export default function HelpPage() {
       </section>
 
       {/* Still need help */}
-      <section className="bg-gray-50 py-12">
-        <div className="max-w-2xl mx-auto px-4 text-center">
-          <h2 className="text-xl font-bold text-gray-900 mb-2">{t.help.still_need}</h2>
-          <p className="text-gray-500 mb-6 text-sm">{t.help.still_sub}</p>
+      <section className="bg-gray-50 py-16 sm:py-20">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 text-center">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">{t.help.still_need}</h2>
+          <p className="text-gray-600 mb-10 text-base sm:text-lg">{t.help.still_sub}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="mailto:support@fiviva.com"
               className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-white text-sm font-semibold"
-              style={{ background: "#00AEEF" }}
+              style={{ background: "#007AA8" }}
             >
               📧 {t.help.email_btn}
             </a>

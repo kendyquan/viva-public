@@ -81,21 +81,21 @@ export default function AboutPage() {
       {/* Hero */}
       <section
         className="py-16 sm:py-20 text-white text-center"
-        style={{ background: 'linear-gradient(135deg, #00AEEF 0%, #0090C5 100%)' }}
+        style={{ background: 'linear-gradient(135deg, #007AA8 0%, #006C94 100%)' }}
       >
-        <div className="max-w-3xl mx-auto px-4">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6">
           <h1 className="text-3xl sm:text-4xl font-bold mb-4">{content.heroTitle}</h1>
-          <p className="text-base sm:text-lg opacity-90 leading-relaxed">{content.heroSubtitle}</p>
+          <p className="text-base sm:text-lg font-medium leading-relaxed">{content.heroSubtitle}</p>
         </div>
       </section>
 
       {/* Stats */}
       <section className="bg-white py-10 border-b border-gray-100">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
             {statRows.map((s) => (
               <div key={s.label}>
-                <div className="text-3xl font-bold" style={{ color: '#00AEEF' }}>{s.value}</div>
+                <div className="text-3xl font-bold" style={{ color: '#007AA8' }}>{s.value}</div>
                 <div className="text-sm text-gray-500 mt-1">{s.label}</div>
               </div>
             ))}
@@ -104,9 +104,9 @@ export default function AboutPage() {
       </section>
 
       {/* Story */}
-      <section className="max-w-3xl mx-auto px-4 sm:px-6 py-16">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">{content.storyTitle}</h2>
-        <div className="prose prose-gray max-w-none text-gray-600 space-y-4 text-sm sm:text-base leading-relaxed">
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-10 text-center">{content.storyTitle}</h2>
+        <div className="prose prose-gray max-w-none text-gray-600 space-y-4 text-base leading-relaxed">
           {content.storyParagraphs.map((p, i) => (
             <p key={i}>{p}</p>
           ))}
@@ -114,15 +114,15 @@ export default function AboutPage() {
       </section>
 
       {/* Values */}
-      <section className="bg-gray-50 py-14">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <h2 className="text-2xl font-bold text-gray-900 text-center mb-10">{content.valuesSectionTitle}</h2>
+      <section className="bg-gray-50 py-16 sm:py-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 text-center mb-10">{content.valuesSectionTitle}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {values.map((v) => (
               <div key={v.valueKey} className="bg-white rounded-2xl p-6 text-center shadow-sm hover:shadow-md transition-shadow">
                 <div className="text-4xl mb-3">{v.emoji}</div>
                 <h3 className="font-semibold text-gray-900 mb-2">{v.title}</h3>
-                <p className="text-xs text-gray-500 leading-relaxed">{v.description}</p>
+                <p className="text-sm text-gray-500 leading-relaxed">{v.description}</p>
               </div>
             ))}
           </div>
@@ -130,8 +130,8 @@ export default function AboutPage() {
       </section>
 
       {/* Team */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 py-16">
-        <h2 className="text-2xl font-bold text-gray-900 text-center mb-10">{content.teamSectionTitle}</h2>
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 text-center mb-10">{content.teamSectionTitle}</h2>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
           {team.map((member) => (
             <div key={member.id} className="text-center">
@@ -150,12 +150,12 @@ export default function AboutPage() {
 
       {/* CTA */}
       <section
-        className="py-14 text-white text-center"
-        style={{ background: 'linear-gradient(135deg, #00A3C4 0%, #00AEEF 100%)' }}
+        className="py-16 sm:py-20 text-white text-center"
+        style={{ background: 'linear-gradient(135deg, #007AA8 0%, #006C94 100%)' }}
       >
-        <div className="max-w-xl mx-auto px-4">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-3">{content.ctaTitle}</h2>
-          <p className="opacity-90 mb-7 text-sm sm:text-base">{content.ctaSubtitle}</p>
+        <div className="max-w-2xl mx-auto px-4 sm:px-6">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4">{content.ctaTitle}</h2>
+          <p className="mb-10 text-base sm:text-lg font-medium">{content.ctaSubtitle}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a {...storeLink(appStoreUrl)} className={"inline-flex items-center gap-3 bg-white rounded-xl px-5 py-3 hover:bg-gray-50 transition-colors" + storeState(appStoreUrl)} style={{ color: '#1A1A2E' }}>
               <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">

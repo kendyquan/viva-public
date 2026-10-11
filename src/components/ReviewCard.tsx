@@ -25,7 +25,7 @@ export default function ReviewCard({
         {/* Avatar */}
         <div
           className="w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0"
-          style={{ background: "linear-gradient(135deg, #00AEEF 0%, #00A3C4 100%)" }}
+          style={{ background: "linear-gradient(135deg, #007AA8 0%, #006C94 100%)" }}
         >
           {name.charAt(0)}
         </div>
@@ -46,7 +46,7 @@ export default function ReviewCard({
       <div className="mt-3 flex items-center justify-between">
         <span className="text-xs text-gray-400">{date}</span>
         {truncate && (
-          <button className="text-xs font-medium" style={{ color: "#00AEEF" }}>
+          <button className="text-xs font-medium" style={{ color: "#007AA8" }}>
             View more
           </button>
         )}

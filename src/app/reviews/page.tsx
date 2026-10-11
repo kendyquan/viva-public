@@ -68,7 +68,7 @@ function Pagination({
       <button
         onClick={() => onChange(page - 1)}
         disabled={page === 1}
-        className={`${btnBase} border border-gray-200 text-gray-500 hover:border-[#00AEEF] hover:text-[#00AEEF] disabled:opacity-30 disabled:cursor-not-allowed`}
+        className={`${btnBase} border border-gray-200 text-gray-500 hover:border-[#007AA8] hover:text-[#007AA8] disabled:opacity-30 disabled:cursor-not-allowed`}
       >
         ‹
       </button>
@@ -85,9 +85,9 @@ function Pagination({
             className={`${btnBase} ${
               p === page
                 ? "text-white"
-                : "border border-gray-200 text-gray-600 hover:border-[#00AEEF] hover:text-[#00AEEF]"
+                : "border border-gray-200 text-gray-600 hover:border-[#007AA8] hover:text-[#007AA8]"
             }`}
-            style={p === page ? { background: "#00AEEF" } : {}}
+            style={p === page ? { background: "#007AA8" } : {}}
           >
             {p}
           </button>
@@ -97,7 +97,7 @@ function Pagination({
       <button
         onClick={() => onChange(page + 1)}
         disabled={page === totalPages}
-        className={`${btnBase} border border-gray-200 text-gray-500 hover:border-[#00AEEF] hover:text-[#00AEEF] disabled:opacity-30 disabled:cursor-not-allowed`}
+        className={`${btnBase} border border-gray-200 text-gray-500 hover:border-[#007AA8] hover:text-[#007AA8] disabled:opacity-30 disabled:cursor-not-allowed`}
       >
         ›
       </button>
@@ -151,16 +151,16 @@ export default function ReviewsPage() {
     <>
       {/* Page header */}
       <div
-        className="py-6 text-white text-center"
-        style={{ background: "linear-gradient(135deg, #00AEEF 0%, #0090C5 100%)" }}
+        className="py-16 sm:py-20 text-white text-center"
+        style={{ background: "linear-gradient(135deg, #007AA8 0%, #006C94 100%)" }}
       >
-        <h1 className="text-2xl font-bold tracking-wide">{t.reviews.page_title}</h1>
+        <h1 className="text-3xl sm:text-4xl font-bold px-4 sm:px-6">{t.reviews.page_title}</h1>
       </div>
 
-      <section className="max-w-5xl mx-auto px-4 sm:px-6 py-12">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
         {/* Overview */}
         <div className="text-center mb-10">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">
             {t.reviews.section_title}
           </h2>
           <div className="flex items-center justify-center gap-2 mb-6">
